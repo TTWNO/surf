@@ -66,6 +66,12 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 #define PROMPT_GO   "Go:"
 #define PROMPT_FIND "Find:"
 
+// This is for the watching YT patch
+#define WATCH {.v = (char *[]){ "/bin/sh", "-c", \
+	"st -e \
+	yt $(xprop -id $0 _SURF_URI | cut -d \\\" -f2 )", \
+	winid, NULL } }
+
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
         .v = (const char *[]){ "/bin/sh", "-c", \
@@ -180,6 +186,8 @@ static Key keys[] = {
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_b,      toggle,     { .i = ScrollBars } },
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_t,      toggle,     { .i = StrictTLS } },
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_m,      toggle,     { .i = Style } },
+	// for yt videos
+	{ MODKEY,		 GDK_KEY_w,		 spawn,		WATCH},
 };
 
 /* button definitions */
