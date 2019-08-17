@@ -116,10 +116,8 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 /* BM_ADD(readprop) */
 #define BM_ADD(r) {\
         .v = (const char *[]){ "/bin/sh", "-c", \
-             "(echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
-             "| sed 's/.*https*:\\/\\/\\(www\\.\\)\\?//' && cat ~/.surf/bookmarks) " \
-             "| awk '!seen[$0]++' > ~/.surf/bookmarks.tmp && " \
-             "mv ~/.surf/bookmarks.tmp ~/.surf/bookmarks", \
+             "echo $(xprop -id $0 $1) | cut -d '\"' -f2 " \
+             "| sed 's/.*https*:\\/\\/\\(www\\.\\)\\?//' >> ~/.surf/bookmarks", \
              winid, r, NULL \
         } \
 }
