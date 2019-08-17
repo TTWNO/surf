@@ -6,6 +6,7 @@ static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
+static char *searchurl      = "https://duckduckgo.com/%s";
 
 /* Webkit default features */
 /* Highest priority value will be used.
@@ -65,6 +66,15 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 
 #define PROMPT_GO   "Go:"
 #define PROMPT_FIND "Find:"
+
+/* SEARCH() will search a DDG search :) */
+#define SEARCH() { \
+        .v = (const char *[]){ "/bin/sh", "-c", \
+             "xprop -id $1 -f $2 8s -set $2 \"" \
+             "$(dmenu -p Search: -w $1 < /dev/null)\"", \
+             "surf-search", winid, "_SURF_SEARCH", NULL \
+        } \
+}
 
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
@@ -146,7 +156,7 @@ static Key keys[] = {
 	{ MODKEY,                GDK_KEY_f,      spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 	{ MODKEY,                GDK_KEY_slash,  spawn,      SETPROP("_SURF_FIND", "_SURF_FIND", PROMPT_FIND) },
 	{ MODKEY,                GDK_KEY_m,      spawn,      BM_ADD("_SURF_URI") },
-
+	{ MODKEY,		 GDK_KEY_s,	 spawn,      SEARCH() },
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
 
